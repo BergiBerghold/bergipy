@@ -1,3 +1,6 @@
+import numpy as np
+
+
 def hilbertizer(input_list):
     output_list = []
     none_appended = False
@@ -27,3 +30,16 @@ def hilbertizer(input_list):
     if none_appended: output_list.pop(-1)
 
     return output_list
+
+
+def find_nearest(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return idx, array[idx]
+
+
+def find_latest(array, value):
+    array = np.asarray(array)
+    array = array[array < value]
+    idx = len(array) - 1
+    return idx, array[-1]
