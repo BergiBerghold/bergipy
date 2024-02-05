@@ -6,13 +6,15 @@ from cycler import cycler
 import numpy as np
 import scipy
 
-plt.style.use('dark_background')
-rcParams['figure.figsize'] = (9, 5)
-rcParams['figure.dpi'] = 250
 
-modified_c_cycle = rcParams["axes.prop_cycle"].by_key()['color']
-modified_c_cycle[0] = 'orange'
-rcParams['axes.prop_cycle'] = cycler(color=modified_c_cycle)
+def set_plotting_defaults():
+    plt.style.use('dark_background')
+    rcParams['figure.figsize'] = (9, 5)
+    rcParams['figure.dpi'] = 250
+
+    modified_c_cycle = rcParams["axes.prop_cycle"].by_key()['color']
+    modified_c_cycle[0] = 'orange'
+    rcParams['axes.prop_cycle'] = cycler(color=modified_c_cycle)
 
 
 def custom_cmap(n: int, name: str = 'hsv'):
