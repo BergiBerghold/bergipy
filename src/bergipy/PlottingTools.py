@@ -7,7 +7,7 @@ import numpy as np
 import scipy
 
 
-def set_plotting_defaults():
+def use_plotting_defaults():
     plt.style.use('dark_background')
     rcParams['figure.figsize'] = (9, 5)
     rcParams['figure.dpi'] = 250
