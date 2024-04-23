@@ -14,5 +14,5 @@ def get_subpixel(image, x, y):
     return None
 
 
-def grayscale_to_rgb(image):
+def grayscale2rgb(image):
     return np.stack((image,) * 3, axis=-1)
