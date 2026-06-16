@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 
+imx219_shape = (3280, 2464)
 
 def dec2reg(dec_value):
     return str(hex(dec_value)[2:].zfill(4))

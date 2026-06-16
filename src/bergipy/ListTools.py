@@ -32,3 +32,7 @@ def find_latest(array, value):
     array = array[array < value]
     idx = len(array) - 1
     return idx, array[-1]
+
+
+def print_span(array):
+    print(f'Min: {float(np.min(array))} | Max: {float(np.max(array))}')

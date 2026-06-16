@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 import matplotlib.tri as tri
+import matplotlib as mpl
+from matplotlib import cm
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from cycler import cycler
 import numpy as np
@@ -9,16 +11,61 @@ import scipy
 
 def use_plotting_defaults():
     plt.style.use('dark_background')
-    rcParams['figure.figsize'] = (9, 5)
-    rcParams['figure.dpi'] = 250
+
+    plt.rc('figure', figsize=(9, 5))
+    plt.rc('figure', dpi=250)
+
+    # rcParams['figure.figsize'] = (9, 5)
+    # rcParams['figure.dpi'] = 250
 
     modified_c_cycle = rcParams["axes.prop_cycle"].by_key()['color']
     modified_c_cycle[0] = 'orange'
+    modified_c_cycle[1] = 'red'
+    modified_c_cycle[2] = 'darkviolet'
+    rcParams['axes.prop_cycle'] = cycler(color=modified_c_cycle)
+
+
+def use_printplot_defaults():
+    plt.rc('figure', figsize=(10, 5))
+    plt.rc('figure', dpi=250)
+    plt.rc('font', size=15)
+
+    plt.rc('axes', labelpad=10)
+
+    plt.rc('figure.subplot', top=0.95, bottom=0.15,
+           left=0.08, right=0.92)
+
+    # rcParams['figure.figsize'] = (10, 5)
+    # rcParams['figure.dpi'] = 250
+    # rcParams['font.size'] = 15
+
+    # rcParams['axes.labelpad'] = 10
+
+    # rcParams['figure.subplot.top'] = 0.95
+    # rcParams['figure.subplot.bottom'] = 0.15
+    #
+    # rcParams['figure.subplot.left'] = 0.08
+    # rcParams['figure.subplot.right'] = 0.92
+
+    modified_c_cycle = rcParams["axes.prop_cycle"].by_key()['color']
+    modified_c_cycle.pop(0)
     rcParams['axes.prop_cycle'] = cycler(color=modified_c_cycle)
 
 
 def custom_cmap(n: int, name: str = 'hsv'):
     return plt.cm.get_cmap(name, n)
+
+
+class GetCmapColor:
+    def __init__(self, cmap_name, start_val, stop_val):
+        self.cmap_name = cmap_name
+        self.cmap = plt.get_cmap(cmap_name)
+        self.norm = mpl.colors.Normalize(vmin=start_val, vmax=stop_val)
+        self.scalarMap = cm.ScalarMappable(norm=self.norm, cmap=self.cmap)
+
+    def get_rgb(self, val):
+        rgb = np.array(self.scalarMap.to_rgba(val))[:-1] * 255
+        return rgb.astype(np.uint8)
 
 
 def irregular_2d_plot(x, y, z,
@@ -96,4 +143,22 @@ def irregular_2d_plot(x, y, z,
     plt.colorbar(im_plot, cax=cax)
 
     fig.tight_layout()
+    plt.show()
+
+
+if __name__ == '__main__':
+    use_plotting_defaults()
+
+    x = np.linspace(0, 10, 100)
+    y = np.linspace(0, 10, 100)
+
+    #cmap = plt.cm.get_cmap('hsv', len(x))
+
+    #cmap = plt.cm.get_cmap('hsv', len(x))
+
+    cmap = mpl.colormaps.get_cmap('hsv', lut=len(x))
+
+    for idx, (_x, _y) in enumerate(zip(x, y)):
+        plt.scatter([_x], [_y], color=cmap(idx))
+
     plt.show()

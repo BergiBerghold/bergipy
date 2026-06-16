@@ -16,3 +16,11 @@ def get_subpixel(image, x, y):
 
 def grayscale2rgb(image):
     return np.stack((image,) * 3, axis=-1)
+
+
+class Frames2mp4:
+    def __init__(self, output_file, fps, resolution):
+        self.video_writer = cv2.VideoWriter(output_file, cv2.VideoWriter_fourcc(*'avc1'), fps, resolution)
+
+    def write(self, image_array):
+        self.video_writer.write(image_array)
