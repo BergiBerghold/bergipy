@@ -53,7 +53,8 @@ def use_printplot_defaults():
 
 
 def custom_cmap(n: int, name: str = 'hsv'):
-    return plt.cm.get_cmap(name, n)
+    return mpl.colormaps.get_cmap(name, lut=n)
+    #return plt.cm.get_cmap(name, n)
 
 
 class GetCmapColor:
@@ -147,18 +148,6 @@ def irregular_2d_plot(x, y, z,
 
 
 if __name__ == '__main__':
-    use_plotting_defaults()
+    c = GetCmapColor('hsv', 0, 80)
 
-    x = np.linspace(0, 10, 100)
-    y = np.linspace(0, 10, 100)
-
-    #cmap = plt.cm.get_cmap('hsv', len(x))
-
-    #cmap = plt.cm.get_cmap('hsv', len(x))
-
-    cmap = mpl.colormaps.get_cmap('hsv', lut=len(x))
-
-    for idx, (_x, _y) in enumerate(zip(x, y)):
-        plt.scatter([_x], [_y], color=cmap(idx))
-
-    plt.show()
+    print(c.get_rgb(1))
