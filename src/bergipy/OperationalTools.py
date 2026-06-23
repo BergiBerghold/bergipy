@@ -55,6 +55,20 @@ class sqlWriter:
                                 f"time DATETIME, "
                                 f"{', '.join([f'{field_name} {field_type}' for field_name, field_type in self.table_fields.items()])})")
 
+        self.cursor.execute(f'SHOW COLUMNS FROM {table_name}')
+
+        existing_field_names = [x[0] for x in self.cursor]
+        missing_field_names = set(self.table_fields.keys()) - set(existing_field_names)
+
+        missing_fields = {key: value for key, value in self.table_fields.items() if key in missing_field_names}
+
+        if missing_fields:
+            print(f'Inserting columns {list(missing_field_names)} into table {self.table_name}')
+
+            self.cursor.execute(f"ALTER TABLE {self.table_name} "
+                                f"ADD COLUMN "
+                                f"({', '.join([f'{field_name} {field_type}' for field_name, field_type in missing_fields.items()])})")
+
     def write_sql(self, table_values):
         '''
         :param table_values: dict: {name_of_field: value_of_field} e.g. {current: 1.3}
