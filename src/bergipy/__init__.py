@@ -8,3 +8,4 @@ from .ThreadingTools import *
 from .MathTools import *
 from .OperationalTools import *
 from .OphanimTools import *
+from .Physics import *
